@@ -1,4 +1,15 @@
 html,
-body {
-    height: 100%
+
+body.image {
+    min-height: 100vh;
+    margin: 0;
+    background-image: url("../img/cabeca.jpg");
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+
+body.image h1 {
+    margin: 0;
+    padding-top: 2rem;
 }

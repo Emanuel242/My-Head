@@ -13,3 +13,16 @@ h1 {
     margin-top: 2rem;
     font-size: 3rem;
 }
+
+main {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#game {
+    width: 50rem;
+    height: 30rem;
+    border: 0.3rem solid black;
+    background-color: #222;
+}

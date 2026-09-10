@@ -51,3 +51,36 @@ button {
     left: 23rem;
     top: 13rem;
 }
+
+#player,
+#enemy {
+    position: absolute;
+    width: 1rem;
+    height: 6rem;
+    background-color: white;
+    top: 0;
+}
+
+#player {
+    left: 1rem;
+}
+
+#enemy {
+    right: 1rem;
+}
+
+#player-score,
+#enemy-score {
+    position: absolute;
+    top: 4rem;
+    font-size: 3rem;
+    color: white;
+}
+
+#player-score {
+    left: 12rem;
+}
+
+#enemy-score {
+    right: 12rem;
+}

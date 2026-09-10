@@ -41,3 +41,13 @@ button {
     font-size: 1.5rem;
     cursor: pointer;
 }
+
+#ball {
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    left: 23rem;
+    top: 13rem;
+}

@@ -33,6 +33,7 @@ let scorePlayer = 0;
 let scoreEnemy = 0;
 
 let gameRunning = false;
+let rotation = 0;
 
 const keys = {};
 
@@ -79,14 +80,17 @@ function updatePlayer() {
 }
 
 function updateEnemy() {
-    const centerEnemy = enemyY + 50;
+    const enemyCenter = enemyY + 50;
+    const ballCenter = ballY + 24;
 
-    if (centerEnemy < ballY) {
-        enemyY += 4;
-    }
+    if (Math.random() > 0.08) {
+        if (enemyCenter < ballCenter - 10) {
+            enemyY += 3.2;
+        }
 
-    if (centerEnemy > ballY) {
-        enemyY -= 4;
+        if (enemyCenter > ballCenter + 10) {
+            enemyY -= 3.2;
+        }
     }
 
     if (enemyY < 0) {
@@ -112,26 +116,51 @@ function updateBall() {
         ballSpeedY *= -1;
     }
 
-    const playerCollision =
-        ballX <= 60 &&
-        ballX >= 35 &&
-        ballY + 48 >= playerY &&
-        ballY <= playerY + 100;
+    const ballLeft = ballX;
+    const ballRight = ballX + 48;
+    const ballTop = ballY;
+    const ballBottom = ballY + 48;
 
-    const enemyCollision =
-        ballX + 48 >= game.clientWidth - 60 &&
-        ballX + 48 <= game.clientWidth - 35 &&
-        ballY + 48 >= enemyY &&
-        ballY <= enemyY + 100;
+    const playerLeft = 16;
+    const playerRight = 32;
+    const playerTop = playerY;
+    const playerBottom = playerY + 96;
 
-    if (playerCollision && ballSpeedX < 0) {
-        ballSpeedX *= -1;
-        ballX = 60;
+    const enemyLeft = game.clientWidth - 32;
+    const enemyRight = game.clientWidth - 16;
+    const enemyTop = enemyY;
+    const enemyBottom = enemyY + 96;
+
+    const hitPlayer =
+        ballLeft <= playerRight &&
+        ballRight >= playerLeft &&
+        ballBottom >= playerTop &&
+        ballTop <= playerBottom;
+
+    const hitEnemy =
+        ballRight >= enemyLeft &&
+        ballLeft <= enemyRight &&
+        ballBottom >= enemyTop &&
+        ballTop <= enemyBottom;
+
+    if (hitPlayer && ballSpeedX < 0) {
+        const hitPosition =
+            (ballY + 24 - playerY) / 96;
+
+        ballSpeedX = 5;
+        ballSpeedY = (hitPosition - 0.5) * 10;
+
+        ballX = playerRight;
     }
 
-    if (enemyCollision && ballSpeedX > 0) {
-        ballSpeedX *= -1;
-        ballX = game.clientWidth - 108;
+    if (hitEnemy && ballSpeedX > 0) {
+        const hitPosition =
+            (ballY + 24 - enemyY) / 96;
+
+        ballSpeedX = -5;
+        ballSpeedY = (hitPosition - 0.5) * 10;
+
+        ballX = enemyLeft - 48;
     }
 
     if (ballX < -50) {
@@ -145,6 +174,11 @@ function updateBall() {
         updateScore();
         resetBall();
     }
+}
+
+function rotateBall() {
+    rotation += 6;
+    ball.style.transform = `rotate(${rotation}deg)`;
 }
 
 function updateScore() {
@@ -165,6 +199,7 @@ function gameLoop() {
         updatePlayer();
         updateEnemy();
         updateBall();
+        rotateBall();
         draw();
     }
 
@@ -174,4 +209,3 @@ function gameLoop() {
 updateScore();
 draw();
 gameLoop();
-
